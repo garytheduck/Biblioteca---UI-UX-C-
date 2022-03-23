@@ -1,28 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Proiect_PIU
+namespace LibrarieClase
 {
-    public class Autor 
+    public class Autor
     {
+        private const char SEPARATOR_PRINCIPAL_FISIER = ';';
+        private const int ID = 0;
+        private const int NUME = 1;
+        private string linieFisier;
+
         public static int nextID = 0;
-        public Carte[] carti_autor;
-        public int id_autor;
+        public string carti_autor;
+        public int idAutor;
         public string nume_autor;
-        public Autor(Carte[] carti, string nume_a)
+        
+        public Autor(string carti, string nume_a)
         {
             nume_autor = nume_a;
             carti_autor = carti;
-            id_autor = ++nextID;
+            idAutor = ++nextID;
         }
-        public void adaugaCarte()
+        public Autor(string linieFisier)
         {
+            var dateFisier = linieFisier.Split(SEPARATOR_PRINCIPAL_FISIER);
 
+            //ordinea de preluare a campurilor este data de ordinea in care au fost scrise in fisier prin apelul implicit al metodei ConversieLaSir_PentruFisier()
+            idAutor = Convert.ToInt32(dateFisier[++nextID]);
+            nume_autor = dateFisier[NUME];
+            
         }
-        public void stergeCarte(string nume_de_sters)
+        public string ConversieLaSir_PentruFisier()
         {
+            string obiectAutorPentruFisier = string.Format("{1}{0}{2}{0}",
+                SEPARATOR_PRINCIPAL_FISIER,
+                idAutor.ToString(),
+                (nume_autor ?? " NECUNOSCUT "));
 
+            return obiectAutorPentruFisier;
         }
     }
 }
